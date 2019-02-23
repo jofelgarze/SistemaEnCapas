@@ -1,0 +1,16 @@
+Comandos para activar las migraciones:
+
+Nota: la consola de Administrador de paquetes esta en:
+Herramientas/Administrador de paquetes nuget/consola de Administrador de paquetes
+
+Nota 2: crear la base de datos "db_escuela" en su ambiente local y revisar que en el archivo
+de SistemaEnCapas/CapaAccesoDatos/App.config en la seccion de connectionString coincida la informacion
+del "data source=.\" con el de su SQL Server Management Studio
+
+1.- Se debe estar seguro de seleccionar el proyecto CapaAccesoDatos y correr este comando:
+enable-migrations 
+
+2.- Luego correr el comando:
+update-database
+
+3.- Revisar que se hayan generado las tablas en la base de datos
