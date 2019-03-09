@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruebasUnitariasCapaAccesoDatos", "PruebasUnitariasCapaAccesoDatos\PruebasUnitariasCapaAccesoDatos.csproj", "{05A9D5F4-CD47-4563-BF67-5BC9C559F4E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaServicioSoap", "CapaServicioSoap\CapaServicioSoap.csproj", "{53AC4F2D-FD90-4760-9BA3-7157791BA73B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{05A9D5F4-CD47-4563-BF67-5BC9C559F4E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05A9D5F4-CD47-4563-BF67-5BC9C559F4E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05A9D5F4-CD47-4563-BF67-5BC9C559F4E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53AC4F2D-FD90-4760-9BA3-7157791BA73B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53AC4F2D-FD90-4760-9BA3-7157791BA73B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53AC4F2D-FD90-4760-9BA3-7157791BA73B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53AC4F2D-FD90-4760-9BA3-7157791BA73B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
