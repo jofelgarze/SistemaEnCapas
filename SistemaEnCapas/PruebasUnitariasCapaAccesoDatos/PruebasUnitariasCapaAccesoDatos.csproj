@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="EstudiantePU.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositorioEstudiantePU.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

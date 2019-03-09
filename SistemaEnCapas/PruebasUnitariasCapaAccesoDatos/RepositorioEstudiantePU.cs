@@ -1,17 +1,17 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CapaAccesoDatos.DAO;
 using CapaAccesoDatos.Entidades;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace PruebasUnitariasCapaAccesoDatos
 {
     [TestClass]
-    public class EstudiantePU
+    public class RepositorioEstudiantePU
     {
         [TestMethod]
-        public void PruebaConsultaTablaEstudianteADO()
+        public void PruebaConsultaEstudianteEF()
         {
-            ClienteSQLEstudiante cliente = new ClienteSQLEstudiante();
+            RepositorioEstudiante cliente = new RepositorioEstudiante();
 
             var resultado = cliente.ConsultarEstudiantes();
 
@@ -20,11 +20,12 @@ namespace PruebasUnitariasCapaAccesoDatos
         }
 
         [TestMethod]
-        public void PruebaInsertarEstudianteTablaADO()
+        public void PruebaInsertarEstudianteEF()
         {
-            ClienteSQLEstudiante cliente = new ClienteSQLEstudiante();
+            RepositorioEstudiante cliente = new RepositorioEstudiante();
 
-            Estudiante registroNuevo = new Estudiante {
+            Estudiante registroNuevo = new Estudiante
+            {
                 Nombres = "Carlos",
                 Apellidos = "Rodriguez",
                 Activo = true,
@@ -41,29 +42,29 @@ namespace PruebasUnitariasCapaAccesoDatos
         }
 
         [TestMethod]
-        public void PruebaModificarEstudianteTablaADO()
+        public void PruebaModificarEstudianteEF()
         {
-            ClienteSQLEstudiante cliente = new ClienteSQLEstudiante();
+            RepositorioEstudiante cliente = new RepositorioEstudiante();
 
             var lista = cliente.ConsultarEstudiantes();
-            
+
             Estudiante registro = lista[lista.Count - 1];
 
             registro.Activo = false;
-            registro.Altura = 1.81;
+            registro.Altura = 1.45;
             registro.FechaNacimiento = DateTime.Now;
-            registro.Salario = (decimal)400.26;
+            registro.Salario = (decimal)450.26;
 
             var resultado = cliente.ModificarEstudiantes(registro);
 
-            Assert.IsTrue(!resultado);
+            Assert.IsTrue(resultado);
 
         }
 
         [TestMethod]
         public void PruebaEliminarEstudianteTablaADO()
         {
-            ClienteSQLEstudiante cliente = new ClienteSQLEstudiante();
+            RepositorioEstudiante cliente = new RepositorioEstudiante();
 
             var lista = cliente.ConsultarEstudiantes();
 
@@ -74,6 +75,5 @@ namespace PruebasUnitariasCapaAccesoDatos
             Assert.IsTrue(resultado != null);
 
         }
-        
     }
 }
