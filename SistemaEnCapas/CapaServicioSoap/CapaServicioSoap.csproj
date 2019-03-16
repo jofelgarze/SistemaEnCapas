@@ -68,14 +68,15 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Service1.svc" />
+    <Content Include="Reportes\ReporteEstudiantesService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Service1.svc.cs">
-      <DependentUpon>Service1.svc</DependentUpon>
+    <Compile Include="DTO\EstudianteVIP.cs" />
+    <Compile Include="Reportes\IReporteEstudiantesService.cs" />
+    <Compile Include="Reportes\ReporteEstudiantesService.svc.cs">
+      <DependentUpon>ReporteEstudiantesService.svc</DependentUpon>
     </Compile>
-    <Compile Include="IService1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
