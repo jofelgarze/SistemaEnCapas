@@ -15,6 +15,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaServicioSoap", "CapaServicioSoap\CapaServicioSoap.csproj", "{53AC4F2D-FD90-4760-9BA3-7157791BA73B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaPresentacionWinForm", "CapaPresentacionWinForm\CapaPresentacionWinForm.csproj", "{A507434F-66A5-44CE-8329-B6F7250DBC90}"
+	ProjectSection(ProjectDependencies) = postProject
+		{53AC4F2D-FD90-4760-9BA3-7157791BA73B} = {53AC4F2D-FD90-4760-9BA3-7157791BA73B}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

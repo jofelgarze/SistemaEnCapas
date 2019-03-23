@@ -1,4 +1,5 @@
 ﻿using CapaAccesoDatos.Entidades;
+using CapaPresentacionWinForm.Reporteria;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -78,8 +79,9 @@ namespace CapaPresentacionWinForm.Mantenimiento
                 estudianteSeleccionado.FechaNacimiento = dtpFechaNacimiento.Value;
                 estudianteSeleccionado.Genero = Convert.ToString(cmbGenero.SelectedValue);
                 estudianteSeleccionado.Salario = Convert.ToDecimal(txtSalario.Text);
-
+                
                 contexto.Estudiante.Add(estudianteSeleccionado);
+                txtCodigo.Text = Convert.ToString(estudianteSeleccionado.Id);
                 source.Add(estudianteSeleccionado);
             }
             else {
@@ -95,8 +97,7 @@ namespace CapaPresentacionWinForm.Mantenimiento
             }
 
             contexto.SaveChanges();
-            txtCodigo.Text = Convert.ToString(estudianteSeleccionado.Id);
-
+            
             source.ResetBindings(false);
         }
 
@@ -155,8 +156,31 @@ namespace CapaPresentacionWinForm.Mantenimiento
 
         private void dgvEstudiantes_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
+            
             dgvEstudiantes.ClearSelection();
             Limpiar();
+        }
+
+        private void dgvEstudiantes_DoubleClick(object sender, EventArgs e)
+        {
+            if (dgvEstudiantes.SelectedRows.Count > 0 && !flagCargando)
+                foreach (DataGridViewRow row in this.dgvEstudiantes.SelectedRows)
+                {
+                    estudianteSeleccionado = row.DataBoundItem as Estudiante;
+                    FrmReporteEstudiantesVIP frm = new FrmReporteEstudiantesVIP();
+                    frm.SalarioMinimo = estudianteSeleccionado.Salario.HasValue ? 
+                        estudianteSeleccionado.Salario.Value : 394;
+
+                    if (frm.ShowDialog() == DialogResult.OK) {
+                        int codigo = frm.CodigoSeleccionado;
+
+                        estudianteSeleccionado = (source.DataSource as List<Estudiante>).Where(est => est.Id == codigo).Single();
+
+                        MessageBox.Show("El estudiante seleccionado fue " 
+                            + estudianteSeleccionado.Nombres 
+                            + " " + estudianteSeleccionado.Apellidos);
+                    }
+                }
         }
     }
 }

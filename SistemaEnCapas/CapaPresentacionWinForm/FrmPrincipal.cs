@@ -1,5 +1,6 @@
 ﻿using CapaAccesoDatos.Entidades;
 using CapaPresentacionWinForm.Mantenimiento;
+using CapaPresentacionWinForm.Reporteria;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -37,6 +38,13 @@ namespace CapaPresentacionWinForm
         private void optEstudiantes_Click(object sender, EventArgs e)
         {
             FrmEstudiante frm = new FrmEstudiante();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void optEstudiantesVIP_Click(object sender, EventArgs e)
+        {
+            FrmReporteEstudiantesVIP frm = new FrmReporteEstudiantesVIP();
             frm.MdiParent = this;
             frm.Show();
         }
