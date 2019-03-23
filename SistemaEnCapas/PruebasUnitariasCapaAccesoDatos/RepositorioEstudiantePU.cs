@@ -55,7 +55,7 @@ namespace PruebasUnitariasCapaAccesoDatos
             registro.FechaNacimiento = DateTime.Now;
             registro.Salario = (decimal)450.26;
 
-            var resultado = cliente.ModificarEstudiantes(registro);
+            var resultado = cliente.ModificarEstudianteSP2(registro);
 
             Assert.IsTrue(resultado);
 

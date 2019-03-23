@@ -14,7 +14,7 @@ namespace CapaPresentacionWinForm.Mantenimiento
     public partial class FrmEstudiante : Form
     {
         private ModeloDbEscuela contexto;
-        private List<Estudiante> estudiantes;
+        BindingSource source = new BindingSource();
         private Estudiante estudianteSeleccionado;
 
         private bool flagCargando = true;
@@ -50,15 +50,14 @@ namespace CapaPresentacionWinForm.Mantenimiento
                     Descripcion = "Masculino"
                 }
             };
-
+            
             cmbGenero.DataSource = generos;
             cmbGenero.DisplayMember = "Descripcion";
             cmbGenero.ValueMember = "Valor";
 
-            
-            estudiantes = contexto.Estudiante.ToList();
+            source.DataSource = contexto.Estudiante.ToList();
             dgvEstudiantes.AutoGenerateColumns = false;
-            dgvEstudiantes.DataSource = estudiantes;
+            dgvEstudiantes.DataSource = source;
             flagCargando = false;
 
             Limpiar();
@@ -81,7 +80,7 @@ namespace CapaPresentacionWinForm.Mantenimiento
                 estudianteSeleccionado.Salario = Convert.ToDecimal(txtSalario.Text);
 
                 contexto.Estudiante.Add(estudianteSeleccionado);
-
+                source.Add(estudianteSeleccionado);
             }
             else {
 
@@ -98,25 +97,45 @@ namespace CapaPresentacionWinForm.Mantenimiento
             contexto.SaveChanges();
             txtCodigo.Text = Convert.ToString(estudianteSeleccionado.Id);
 
+            source.ResetBindings(false);
         }
 
         private void dgvEstudiantes_SelectionChanged(object sender, EventArgs e)
         {
-            if (dgvEstudiantes.SelectedRows.Count > 0 && !flagCargando) {
-                int codigo = Convert.ToInt32(dgvEstudiantes
-                    .SelectedRows[0].Cells[0].Value);
+            //if (dgvEstudiantes.SelectedRows.Count > 0 && !flagCargando)
+            //{
+            //    int codigo = Convert.ToInt32(dgvEstudiantes
+            //        .SelectedRows[0].Cells[0].Value);
 
-                estudianteSeleccionado = estudiantes.Where(est => est.Id == codigo).Single();
+            //    estudianteSeleccionado = estudiantes.Where(est => est.Id == codigo).Single();
 
-                txtCodigo.Text = Convert.ToString(estudianteSeleccionado.Id);
-                txtNombres.Text = estudianteSeleccionado.Nombres;
-                txtApellidos.Text = estudianteSeleccionado.Apellidos;
-                chkActivo.Checked = estudianteSeleccionado.Activo;
-                txtAltura.Text = Convert.ToString(estudianteSeleccionado.Altura);
-                dtpFechaNacimiento.Value = estudianteSeleccionado.FechaNacimiento;
-                cmbGenero.SelectedValue = estudianteSeleccionado.Genero;
-                txtSalario.Text = Convert.ToString(estudianteSeleccionado.Salario);
-            }
+            //    txtCodigo.Text = Convert.ToString(estudianteSeleccionado.Id);
+            //    txtNombres.Text = estudianteSeleccionado.Nombres;
+            //    txtApellidos.Text = estudianteSeleccionado.Apellidos;
+            //    chkActivo.Checked = estudianteSeleccionado.Activo;
+            //    txtAltura.Text = Convert.ToString(estudianteSeleccionado.Altura);
+            //    dtpFechaNacimiento.Value = estudianteSeleccionado.FechaNacimiento;
+            //    cmbGenero.SelectedValue = estudianteSeleccionado.Genero;
+            //    txtSalario.Text = Convert.ToString(estudianteSeleccionado.Salario);
+
+
+            //}
+            if (dgvEstudiantes.SelectedRows.Count > 0 && !flagCargando)
+                foreach (DataGridViewRow row in this.dgvEstudiantes.SelectedRows)
+                {
+                    estudianteSeleccionado = row.DataBoundItem as Estudiante;
+                    if (estudianteSeleccionado != null)
+                    {
+                        txtCodigo.Text = Convert.ToString(estudianteSeleccionado.Id);
+                        txtNombres.Text = estudianteSeleccionado.Nombres;
+                        txtApellidos.Text = estudianteSeleccionado.Apellidos;
+                        chkActivo.Checked = estudianteSeleccionado.Activo;
+                        txtAltura.Text = Convert.ToString(estudianteSeleccionado.Altura);
+                        dtpFechaNacimiento.Value = estudianteSeleccionado.FechaNacimiento;
+                        cmbGenero.SelectedValue = estudianteSeleccionado.Genero;
+                        txtSalario.Text = Convert.ToString(estudianteSeleccionado.Salario);
+                    }
+                }
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -129,8 +148,15 @@ namespace CapaPresentacionWinForm.Mantenimiento
             if (estudianteSeleccionado != null) {
                 contexto.Estudiante.Remove(estudianteSeleccionado);
                 contexto.SaveChanges();
+                source.Remove(estudianteSeleccionado);
                 Limpiar();
             }
+        }
+
+        private void dgvEstudiantes_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            dgvEstudiantes.ClearSelection();
+            Limpiar();
         }
     }
 }

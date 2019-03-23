@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -36,6 +38,73 @@ namespace CapaAccesoDatos.DAO
             //que cambiaron (en el bloque de memoria) con respecto a la ultima vez
             //que se consulto la base de datos
             return contexto.SaveChanges() > 0;
+        }
+
+        public bool ModificarEstudianteSP(Estudiante registro) {
+            // Create a SQL command to execute the sproc
+            var cmd = contexto.Database.Connection.CreateCommand();
+            cmd.CommandText = "[dbo].[sp_upd_estudiante] @Id, @FechaNacimiento, @Activo, @Altura, @Salario";
+
+            cmd.Parameters.Add(new SqlParameter("@Id", registro.Id));
+            cmd.Parameters.Add(new SqlParameter("@FechaNacimiento", registro.FechaNacimiento));
+            cmd.Parameters.Add(new SqlParameter("@Activo", registro.Activo));
+            cmd.Parameters.Add(new SqlParameter("@Altura", registro.Altura));
+            cmd.Parameters.Add(new SqlParameter("@Salario", registro.Salario));
+
+            try
+            {
+
+                contexto.Database.Connection.Open();
+                // Run the sproc
+                var reader = cmd.ExecuteReader();
+
+                // Read Blogs from the first result set
+                var estudiantes = ((IObjectContextAdapter)contexto)
+                    .ObjectContext
+                    .Translate<Estudiante>(reader, "Estudiante", MergeOption.AppendOnly);
+
+
+                foreach (var item in estudiantes.ToList())
+                {
+                    Console.WriteLine(item.Nombres);
+                }
+
+                // Move to second result set and read Posts
+                //reader.NextResult();
+                //var posts = ((IObjectContextAdapter)db)
+                //    .ObjectContext
+                //    .Translate<Post>(reader, "Posts", MergeOption.AppendOnly);
+
+
+                //foreach (var item in posts)
+                //{
+                //    Console.WriteLine(item.Title);
+                //}
+            }
+            finally
+            {
+                contexto.Database.Connection.Close();
+            }
+            return true;
+        }
+
+        public bool ModificarEstudianteSP2(Estudiante registro)
+        {
+            var Id = new SqlParameter("@Id", registro.Id);
+            var FechaNacimiento = new SqlParameter("@FechaNacimiento", registro.FechaNacimiento);
+            var Activo = new SqlParameter("@Activo", registro.Activo);
+            var Altura = new SqlParameter("@Altura", registro.Altura);
+            var Salario = new SqlParameter("@Salario", registro.Salario);
+
+            var resultado = contexto.Database.SqlQuery<Estudiante>("exec [dbo].[sp_upd_estudiante] @Id, @FechaNacimiento, @Activo, @Altura, @Salario",
+                Id, FechaNacimiento, Activo, Altura, Salario);
+
+            foreach (var item in resultado.ToList())
+            {
+                Console.WriteLine(item.Nombres);
+            }
+
+            return true;
         }
 
         public bool ModificarEstudiantes(Estudiante registro) {
